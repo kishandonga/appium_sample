@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Appium Sample App</string>
+    <string name="lbl_dashboard">Dashboard</string>
+    <string name="lbl_enter_email">Enter Email</string>
+    <string name="lbl_login">Login</string>
+    <string name="lbl_password">Enter Password</string>
+    <string name="lbl_selected_fruit">Selected Fruit</string>
+    <string name="lbl_fruit">Fruit</string>
+</resources>
