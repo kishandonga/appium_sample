@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.appium_sample.R;
+import com.example.appium_sample.model.FruitModel;
 
 import java.util.List;
 
@@ -17,10 +19,10 @@ import java.util.List;
 
 public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> {
 
-    private List<String> list;
+    private List<FruitModel> list;
     private OnItemClickListener listener;
 
-    public FruitAdapter(List<String> sections) {
+    public FruitAdapter(List<FruitModel> sections) {
         this.list = sections;
     }
 
@@ -31,8 +33,7 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        TextView textView = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_section_textview, parent, false);
-        return new ViewHolder(textView);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_fruit, parent, false));
     }
 
     @Override
@@ -45,26 +46,45 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> 
         return list.size();
     }
 
+    public void setItems(List<FruitModel> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClickListener {
-        void onItemClick(String fruit);
+        void onItemClick(FruitModel fruit);
+
+        void onItemLongClick(FruitModel fruit);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mTextView;
+        View view;
+        ImageView ivFruit;
+        TextView tvFruitName;
+        TextView tvFruitPrice;
 
-        ViewHolder(TextView v) {
+        ViewHolder(View v) {
             super(v);
-            mTextView = v;
+            view = v;
+            initView(v);
         }
 
-        private void bind(final String fruit, final OnItemClickListener listener) {
-            mTextView.setText(fruit);
-            mTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClick(fruit);
-                }
+        private void initView(View rootView) {
+            ivFruit = rootView.findViewById(R.id.ivFruit);
+            tvFruitName = rootView.findViewById(R.id.tvFruitName);
+            tvFruitPrice = rootView.findViewById(R.id.tvFruitPrice);
+        }
+
+        private void bind(final FruitModel fruit, final OnItemClickListener listener) {
+            ivFruit.setImageResource(fruit.getPhotoId());
+            tvFruitName.setText(fruit.getFruit());
+            tvFruitPrice.setText(String.valueOf("$" + fruit.getAmount()));
+
+            view.setOnClickListener(v -> listener.onItemClick(fruit));
+            view.setOnLongClickListener(v -> {
+                listener.onItemLongClick(fruit);
+                return true;
             });
         }
     }

@@ -11,6 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.SignUpAct"></activity>
+        <activity android:name=".ui.FruitCartAct" />
         <activity
             android:name=".ui.LoginAct"
             android:windowSoftInputMode="adjustResize">
@@ -20,8 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.DashboardAct" />
-        <activity android:name=".ui.FruitSelectionAct" />
+        <activity android:name=".ui.SelectFruitAct" />
+        <activity android:name=".ui.FruitDetailAct" />
     </application>
 
 </manifest>

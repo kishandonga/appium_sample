@@ -6,12 +6,15 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatTextView;
+import android.view.View;
 
 import com.example.appium_sample.R;
 import com.example.appium_sample.utils.Utils;
 
 public class LoginAct extends AppCompatActivity {
 
+    private AppCompatTextView tvSignUp;
     private TextInputEditText edEmail;
     private TextInputLayout edEmailLayout;
     private TextInputEditText edPwd;
@@ -42,17 +45,24 @@ public class LoginAct extends AppCompatActivity {
             }
 
             String pwd = edPwd.getText() != null ? edPwd.getText().toString() : null;
-            //noinspection StatementWithEmptyBody
             if (pwd != null && !pwd.isEmpty()) {
-                // save to model
+                //noinspection StatementWithEmptyBody
+                if (pwd.length() >= 4) {
+                    // save to model
+                } else {
+                    edPwdLayout.setError("Please Enter Password greater then 4 characters");
+                    return;
+                }
             } else {
                 edPwdLayout.setError("Please Enter Password");
                 return;
             }
 
-            startActivity(new Intent(LoginAct.this, DashboardAct.class));
+            startActivity(new Intent(LoginAct.this, SelectFruitAct.class));
             finish();
         });
+
+        tvSignUp.setOnClickListener(view -> startActivity(new Intent(LoginAct.this, SignUpAct.class)));
     }
 
     private void initView() {
@@ -61,5 +71,6 @@ public class LoginAct extends AppCompatActivity {
         edPwd = findViewById(R.id.edPwd);
         edPwdLayout = findViewById(R.id.edPwdLayout);
         btnLogin = findViewById(R.id.btnLogin);
+        tvSignUp = findViewById(R.id.tvSignUp);
     }
 }
