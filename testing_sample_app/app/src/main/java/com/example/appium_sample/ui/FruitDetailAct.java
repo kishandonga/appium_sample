@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -79,6 +80,7 @@ public class FruitDetailAct extends AppCompatActivity {
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     DataIntent.getInstance().addItemInCart(fruit);
                     dialogInterface.cancel();
+                    Snackbar.make(rootLayout, "Fruits added in the cart", Snackbar.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> {
                     dialogInterface.cancel();

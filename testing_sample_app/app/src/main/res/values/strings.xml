@@ -6,7 +6,7 @@
     <string name="lbl_password">Enter Password</string>
     <string name="lbl_selected_fruit">Selected Fruit</string>
     <string name="lbl_fruit">Fruit</string>
-    <string name="lbl_recent_fruit">Recent Fruit</string>
+    <string name="lbl_fruit_cart">Fruit Cart</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="lbl_open_cart">Open Cart</string>
     <string name="lbl_sign_up">Sign Up</string>

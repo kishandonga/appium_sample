@@ -1,11 +1,14 @@
 package com.example.appium_sample.test;
 
+import com.example.appium_sample.test.testcase.FruitDetailScreenTestCase;
+import com.example.appium_sample.test.testcase.FruitSelectScreenTestCase;
+import com.example.appium_sample.test.testcase.LoginScreenTestCase;
+import com.example.appium_sample.test.utils.Providers;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-import org.openqa.selenium.WebElement;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
@@ -19,16 +22,18 @@ import io.appium.java_client.remote.MobileCapabilityType;
  *   Created By Kishan Donga 3/10/19
  */
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ExecuteFruitsTest {
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+        LoginScreenTestCase.class,
+        FruitSelectScreenTestCase.class,
+        FruitDetailScreenTestCase.class})
+public class FruitTestSuite {
 
     private static AndroidDriver driver;
-    private static DataProvider provider;
+    private static Providers provider = Providers.getInstance();
 
     @BeforeClass
     public static void setUp() throws MalformedURLException {
-
-        provider = DataProvider.getInstance();
 
         // Created object of DesiredCapabilities class.
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -41,47 +46,18 @@ public class ExecuteFruitsTest {
         capabilities.setCapability("appActivity", "com.example.appium_sample.ui.LoginAct");
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+        provider.setDriver(driver);
+        System.out.print("Driver Setup Completed");
     }
 
     @AfterClass
-    public static void end() {
+    public static void tearDown() {
         driver.quit();
+        System.out.print("Driver successfully teardown");
     }
 
-    @Test
-    public void stage1_testCashLogin() {
-
-        WebElement email = driver.findElementByXPath("//android.widget.EditText[contains(@resource-id,'edEmail')]");
-        WebElement pwd = driver.findElementByXPath("//android.widget.EditText[contains(@resource-id,'edPwd')]");
-        WebElement btnLogin = driver.findElementByXPath("//android.widget.Button[contains(@resource-id,'btnLogin')]");
-
-        email.sendKeys("");
-        btnLogin.click();
-
-        email.sendKeys("kishan.donga.com");
-        btnLogin.click();
-
-        email.sendKeys("");
-        btnLogin.click();
-
-        email.sendKeys("kishan@donga.com");
-        btnLogin.click();
-
-        pwd.sendKeys("");
-        btnLogin.click();
-
-        pwd.sendKeys("123");
-        btnLogin.click();
-    }
-
-    @Test
-    public void stage2_testCaseDashboard() {
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        WebElement rvItem = driver.findElementByXPath("//android.support.v7.widget.RecyclerView[@index='0']/android.widget.TextView");
-        provider.put(Const.SELECTED_ITEM, rvItem.getText());
-
-        rvItem.click();
-    }
+    /*
 
     @Test
     public void stage3_testCaseVerifyData() {
@@ -92,5 +68,5 @@ public class ExecuteFruitsTest {
         if (fruit.equals(selectedFruit)) {
             System.out.println("Both are Same Test Case Pass!");
         }
-    }
+    }*/
 }

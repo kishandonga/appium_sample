@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.appium_sample.R;
 import com.example.appium_sample.adapter.FruitAdapter;
@@ -26,7 +28,8 @@ public class SelectFruitAct extends AppCompatActivity {
 
         List<FruitModel> list = DataProvider.getData();
 
-        FruitAdapter mAdapter = new FruitAdapter(list);
+        FruitAdapter mAdapter = new FruitAdapter();
+        mAdapter.setItems(list);
         rvFruit.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(new FruitAdapter.OnItemClickListener() {
@@ -42,5 +45,21 @@ public class SelectFruitAct extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.save_as_recent_fruit, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_open_cart:
+                startActivity(new Intent(SelectFruitAct.this, FruitCartAct.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

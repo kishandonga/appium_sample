@@ -21,13 +21,14 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> 
 
     private List<FruitModel> list;
     private OnItemClickListener listener;
-
-    public FruitAdapter(List<FruitModel> sections) {
-        this.list = sections;
-    }
+    private OnPriceChangeListener priceChangeListener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setOnPriceChangeListener(OnPriceChangeListener listener) {
+        this.priceChangeListener = listener;
     }
 
     @NonNull
@@ -49,12 +50,24 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> 
     public void setItems(List<FruitModel> list) {
         this.list = list;
         notifyDataSetChanged();
+
+        if (priceChangeListener != null) {
+            float amountTotal = 0.0f;
+            for (FruitModel model : list) {
+                amountTotal += model.getAmount();
+            }
+            priceChangeListener.onPriceChange(amountTotal);
+        }
     }
 
     public interface OnItemClickListener {
         void onItemClick(FruitModel fruit);
 
         void onItemLongClick(FruitModel fruit);
+    }
+
+    public interface OnPriceChangeListener {
+        void onPriceChange(float amount);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

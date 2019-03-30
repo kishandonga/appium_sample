@@ -48,13 +48,4 @@
         android:layout_marginTop="15dp"
         android:text="@string/lbl_login" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tvSignUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:text="@string/lbl_sign_up"
-        android:textColor="@android:color/holo_blue_dark" />
-
 </LinearLayout>
