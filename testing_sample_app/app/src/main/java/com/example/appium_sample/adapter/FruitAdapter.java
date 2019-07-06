@@ -12,6 +12,7 @@ import com.example.appium_sample.R;
 import com.example.appium_sample.model.FruitModel;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Kishan Donga on 3/10/19
@@ -92,7 +93,7 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> 
         private void bind(final FruitModel fruit, final OnItemClickListener listener) {
             ivFruit.setImageResource(fruit.getPhotoId());
             tvFruitName.setText(fruit.getFruit());
-            tvFruitPrice.setText(String.valueOf("$" + fruit.getAmount()));
+            tvFruitPrice.setText(String.format(Locale.ENGLISH, "$%.2f", fruit.getAmount()));
 
             view.setOnClickListener(v -> listener.onItemClick(fruit));
             view.setOnLongClickListener(v -> {

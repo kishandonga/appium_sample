@@ -7,15 +7,21 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.appium_sample.R;
 import com.example.appium_sample.adapter.FruitAdapter;
 import com.example.appium_sample.model.FruitModel;
+import com.example.appium_sample.utils.DataIntent;
 import com.example.appium_sample.utils.DataProvider;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SelectFruitAct extends AppCompatActivity {
+
+    private TextView tvCartItemCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +56,42 @@ public class SelectFruitAct extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_as_recent_fruit, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_open_cart);
+        View actionView = menuItem.getActionView();
+        tvCartItemCount = actionView.findViewById(R.id.cart_badge);
+        setupBadge();
+        actionView.setOnClickListener(v -> onOptionsItemSelected(menuItem));
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setupBadge();
+    }
+
+    private void setupBadge() {
+        int mCartItemCount = DataIntent.getInstance().getCartList().size();
+        if (tvCartItemCount != null) {
+            if (mCartItemCount == 0) {
+                if (tvCartItemCount.getVisibility() != View.GONE) {
+                    tvCartItemCount.setVisibility(View.GONE);
+                }
+            } else {
+                tvCartItemCount.setText(String.format(Locale.ENGLISH, "%d", mCartItemCount));
+                if (tvCartItemCount.getVisibility() != View.VISIBLE) {
+                    tvCartItemCount.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_open_cart:
-                startActivity(new Intent(SelectFruitAct.this, FruitCartAct.class));
-                break;
+        if (item.getItemId() == R.id.action_open_cart) {
+            startActivity(new Intent(SelectFruitAct.this, FruitCartAct.class));
         }
         return super.onOptionsItemSelected(item);
     }

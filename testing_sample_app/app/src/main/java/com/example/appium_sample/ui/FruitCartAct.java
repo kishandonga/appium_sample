@@ -29,9 +29,7 @@ public class FruitCartAct extends AppCompatActivity {
         initView();
 
         mAdapter = new FruitAdapter();
-        mAdapter.setOnPriceChangeListener(amount -> {
-            tvCartTotal.setText(String.valueOf("$" + String.format(Locale.US, "%.2f", amount)));
-        });
+        mAdapter.setOnPriceChangeListener(amount -> tvCartTotal.setText(String.format(Locale.ENGLISH, "$%.2f", amount)));
         mAdapter.setItems(DataIntent.getInstance().getCartList());
         rvFruit.setAdapter(mAdapter);
 
@@ -68,18 +66,14 @@ public class FruitCartAct extends AppCompatActivity {
                     DataIntent.getInstance().removeItemCart(fruit);
                     mAdapter.setItems(DataIntent.getInstance().getCartList());
                 })
-                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> {
-                    dialogInterface.cancel();
-                })
+                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
                 .show();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

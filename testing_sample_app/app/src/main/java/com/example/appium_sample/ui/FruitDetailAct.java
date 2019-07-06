@@ -10,12 +10,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.appium_sample.R;
 import com.example.appium_sample.model.FruitModel;
 import com.example.appium_sample.utils.DataIntent;
+
+import java.util.List;
+import java.util.Locale;
 
 public class FruitDetailAct extends AppCompatActivity {
 
@@ -25,6 +29,7 @@ public class FruitDetailAct extends AppCompatActivity {
     private TextView tvFruitDescription;
     private FloatingActionButton fabAddToBucket;
     private FruitModel fruit;
+    private TextView tvCartItemCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +41,17 @@ public class FruitDetailAct extends AppCompatActivity {
         setTitle(fruit.getFruit());
         ivFruit.setImageResource(fruit.getPhotoId());
         tvFruitDescription.setText(fruit.getDescription());
-        tvFruitPrice.setText(String.valueOf("Price of 12 Pic - $" + fruit.getAmount()));
+        tvFruitPrice.setText(String.format(Locale.ENGLISH, "Price of 12 Pic - $%.2f", fruit.getAmount()));
 
         fabAddToBucket.setOnClickListener(view -> addToCartDialog());
+
+        List<FruitModel> models = DataIntent.getInstance().getCartList();
+        for (FruitModel m : models) {
+            if (fruit.getFruit().equals(m.getFruit())) {
+                fabAddToBucket.hide();
+                break;
+            }
+        }
     }
 
     private void initView() {
@@ -56,8 +69,38 @@ public class FruitDetailAct extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_as_recent_fruit, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_open_cart);
+        View actionView = menuItem.getActionView();
+        tvCartItemCount = actionView.findViewById(R.id.cart_badge);
+        setupBadge();
+        actionView.setOnClickListener(v -> onOptionsItemSelected(menuItem));
+
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupBadge();
+    }
+
+    private void setupBadge() {
+        int mCartItemCount = DataIntent.getInstance().getCartList().size();
+        if (tvCartItemCount != null) {
+            if (mCartItemCount == 0) {
+                if (tvCartItemCount.getVisibility() != View.GONE) {
+                    tvCartItemCount.setVisibility(View.GONE);
+                }
+            } else {
+                tvCartItemCount.setText(String.format(Locale.ENGLISH, "%d", mCartItemCount));
+                if (tvCartItemCount.getVisibility() != View.VISIBLE) {
+                    tvCartItemCount.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -80,11 +123,11 @@ public class FruitDetailAct extends AppCompatActivity {
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     DataIntent.getInstance().addItemInCart(fruit);
                     dialogInterface.cancel();
+                    setupBadge();
+                    fabAddToBucket.hide();
                     Snackbar.make(rootLayout, "Fruits added in the cart", Snackbar.LENGTH_SHORT).show();
                 })
-                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> {
-                    dialogInterface.cancel();
-                })
+                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
                 .show();
     }
 }
