@@ -25,4 +25,8 @@ public class Utils {
     public static String makeXPath(String clsName, int childIndex, String childClsName) {
         return "//" + clsName + "[@index='" + childIndex + "']/" + childClsName + "";
     }
+
+    public static String scrollTo(String text) {
+        return "new UiScrollable(new UiSelector().resourceId(\"com.example.appium_sample:id/rvFruit\")).scrollIntoView(new UiSelector().text(\"" + text + "\"))";
+    }
 }

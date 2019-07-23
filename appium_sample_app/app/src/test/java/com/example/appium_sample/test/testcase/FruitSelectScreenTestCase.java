@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import static com.example.appium_sample.test.utils.Utils.makeXPath;
 import static com.example.appium_sample.test.utils.Utils.printResult;
 import static com.example.appium_sample.test.utils.Utils.printTc;
+import static com.example.appium_sample.test.utils.Utils.scrollTo;
 
 /*
  *   Created By Kishan Donga 3/23/19
@@ -30,8 +31,8 @@ public class FruitSelectScreenTestCase {
     @Test
     public void tc1_openCart() {
         provider.getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        printTc("Open Cart and validate button click event");
-        WebElement openCartActivity = provider.getDriver().findElementByXPath(makeXPath(Const.TextView, "action_open_cart"));
+        printTc("Open Cart and validate cart button click event");
+        WebElement openCartActivity = provider.getDriver().findElementByXPath(makeXPath(Const.FrameLayout, "action_open_cart"));
         openCartActivity.click();
     }
 
@@ -56,7 +57,7 @@ public class FruitSelectScreenTestCase {
         provider.getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         printTc("Select Fruit from the list and validate click event");
 
-        WebElement rvItem = provider.getDriver().findElementByXPath(makeXPath(Const.RecyclerView, 0, Const.FrameLayout));
+        WebElement rvItem = provider.getDriver().findElementByAndroidUIAutomator(scrollTo("Apple"));
         WebElement tvFruitName = rvItem.findElement(By.xpath(makeXPath(Const.TextView, "tvFruitName")));
 
         provider.put(Const.SELECTED_ITEM, tvFruitName.getText());

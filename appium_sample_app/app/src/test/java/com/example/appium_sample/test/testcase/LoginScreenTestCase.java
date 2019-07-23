@@ -8,8 +8,6 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebElement;
 
-import java.util.concurrent.TimeUnit;
-
 import static com.example.appium_sample.test.utils.Utils.makeXPath;
 import static com.example.appium_sample.test.utils.Utils.printTc;
 

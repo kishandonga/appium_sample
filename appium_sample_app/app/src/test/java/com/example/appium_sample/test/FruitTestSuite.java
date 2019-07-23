@@ -1,5 +1,6 @@
 package com.example.appium_sample.test;
 
+import com.example.appium_sample.test.testcase.FruitCartScreenTestCase;
 import com.example.appium_sample.test.testcase.FruitDetailScreenTestCase;
 import com.example.appium_sample.test.testcase.FruitSelectScreenTestCase;
 import com.example.appium_sample.test.testcase.LoginScreenTestCase;
@@ -26,7 +27,8 @@ import io.appium.java_client.remote.MobileCapabilityType;
 @Suite.SuiteClasses({
         LoginScreenTestCase.class,
         FruitSelectScreenTestCase.class,
-        FruitDetailScreenTestCase.class})
+        FruitDetailScreenTestCase.class,
+        FruitCartScreenTestCase.class})
 public class FruitTestSuite {
 
     private static AndroidDriver driver;
@@ -36,15 +38,15 @@ public class FruitTestSuite {
     public static void setUp() throws MalformedURLException {
 
         // Created object of DesiredCapabilities class.
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-        capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-        capabilities.setCapability("appPackage", "com.example.appium_sample");
-        capabilities.setCapability("appActivity", "com.example.appium_sample.ui.LoginAct");
-        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        DesiredCapabilities dc = new DesiredCapabilities();
+        dc.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
+        dc.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");
+        dc.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+        dc.setCapability(MobileCapabilityType.NO_RESET, true);
+        dc.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+        dc.setCapability("appPackage", "com.example.appium_sample");
+        dc.setCapability("appActivity", "com.example.appium_sample.ui.LoginAct");
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), dc);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
         provider.setDriver(driver);
@@ -56,17 +58,4 @@ public class FruitTestSuite {
         driver.quit();
         System.out.print("Driver successfully teardown");
     }
-
-    /*
-
-    @Test
-    public void stage3_testCaseVerifyData() {
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        WebElement tvFruit = driver.findElementById("com.example.appium_sample:id/tvFruit");
-        String fruit = tvFruit.getText();
-        String selectedFruit = (String) provider.get(Const.SELECTED_ITEM);
-        if (fruit.equals(selectedFruit)) {
-            System.out.println("Both are Same Test Case Pass!");
-        }
-    }*/
 }
