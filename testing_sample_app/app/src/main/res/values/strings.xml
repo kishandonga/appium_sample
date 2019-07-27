@@ -10,4 +10,5 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="lbl_open_cart">Open Cart</string>
     <string name="lbl_sign_up">Sign Up</string>
+    <string name="fruit_basket">Fruit Basket</string>
 </resources>
