@@ -6,10 +6,15 @@ import com.example.appium_sample.test.utils.Providers;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
+
+import io.appium.java_client.AppiumDriver;
 
 import static com.example.appium_sample.test.utils.Utils.makeXPath;
 import static com.example.appium_sample.test.utils.Utils.printResult;
@@ -36,7 +41,10 @@ public class FruitCartScreenTestCase {
         provider.getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         printTc("remove item from the cart");
 
-        WebElement rvItem = provider.getDriver().findElementByXPath(makeXPath(Const.RecyclerView, 0, Const.FrameLayout));
+        WebDriverWait wait = new WebDriverWait(provider.getDriver(),5);
+        WebElement rvItem = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(makeXPath(Const.RecyclerView, 0, Const.FrameLayout))));
+
+        //WebElement rvItem = provider.getDriver().findElementByXPath(makeXPath(Const.RecyclerView, 0, Const.FrameLayout));
         new Actions(provider.getDriver()).clickAndHold(rvItem).perform();
 
         provider.getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);

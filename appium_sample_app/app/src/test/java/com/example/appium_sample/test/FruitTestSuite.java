@@ -45,7 +45,7 @@ public class FruitTestSuite {
         dc.setCapability(MobileCapabilityType.NO_RESET, true);
         dc.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
         dc.setCapability("appPackage", "com.example.appium_sample");
-        dc.setCapability("appActivity", "com.example.appium_sample.ui.LoginAct");
+        dc.setCapability("appActivity", "com.example.appium_sample.ui.SplashActivity");
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), dc);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 

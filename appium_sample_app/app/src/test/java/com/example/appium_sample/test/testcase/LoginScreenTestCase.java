@@ -43,7 +43,7 @@ public class LoginScreenTestCase {
         email.sendKeys("");
         btnLogin.click();
 
-        email.sendKeys("kishan@donga.com");
+        email.sendKeys("kishandonga.92@gmail.com");
         btnLogin.click();
     }
 
