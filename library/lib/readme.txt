@@ -1,0 +1,8 @@
+implementation files('libs/client-combined-3.141.59.jar')
+implementation files('libs/commons-lang3-3.0.1.jar')
+implementation files('libs/okhttp-3.11.0.jar')
+implementation files('libs/guava-25.0-jre.jar')
+implementation files('libs/okio-1.14.0.jar')
+implementation files('libs/byte-buddy-1.8.15.jar')
+implementation files('libs/commons-exec-1.3.jar')
+implementation files('libs/java-client-7.0.0.jar')
